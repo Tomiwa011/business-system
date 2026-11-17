@@ -1,3 +1,5 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -13,6 +15,8 @@ import { requireAuth } from './middleware/auth.js';
 import { apiLimiter, salesLimiter } from './middleware/rateLimit.js';
 
 dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Refuse to start with a missing or weak configuration
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
@@ -74,6 +78,18 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
+
+// In production, serve the built React app from the same server
+if (process.env.NODE_ENV === 'production') {
+  const clientDist = path.join(__dirname, '../client/dist');
+  app.use(express.static(clientDist));
+
+  // Any other page (like /products on refresh) gets the React app
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 // Last-resort error handler: never leak stack traces
 app.use((err, req, res, next) => {

@@ -8,6 +8,7 @@ import Sales from './pages/Sales.jsx';
 import Products from './pages/Products.jsx';
 import Profile from './pages/Profile.jsx';
 import Users from './pages/Users.jsx';
+import Security from './pages/Security.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           {/* Admin-only pages */}
           <Route element={<ProtectedRoute roles={['admin']} />}>
             <Route path="users" element={<Users />} />
+            <Route path="security" element={<Security />} />
           </Route>
         </Route>
       </Route>
