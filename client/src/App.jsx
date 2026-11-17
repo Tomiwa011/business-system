@@ -10,16 +10,18 @@ import Profile from './pages/Profile.jsx';
 import Users from './pages/Users.jsx';
 import Security from './pages/Security.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Home from './pages/Home.jsx';
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
       {/* Everything inside here requires a logged-in user */}
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
-          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="new-sale" element={<NewSale />} />
           <Route path="sales" element={<Sales />} />
           <Route path="products" element={<Products />} />

@@ -9,7 +9,7 @@ export default function NotFound() {
         to="/"
         className="bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-indigo-700"
       >
-        Back to dashboard
+        Back to home
       </Link>
     </div>
   );

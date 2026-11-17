@@ -10,64 +10,49 @@ export default function Layout() {
     navigate('/login');
   }
 
-  const linkClass = ({ isActive }) =>
-    `px-3 py-2 rounded-md text-sm font-medium ${
-      isActive ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-500'
-    }`;
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-600 shadow">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-white font-bold text-lg">Business Manager</span>
-            <nav className="flex flex-wrap gap-1">
-              <NavLink to="/" end className={linkClass}>
-                Dashboard
-              </NavLink>
-              <NavLink to="/new-sale" className={linkClass}>
-                New Sale
-              </NavLink>
-              <NavLink to="/sales" className={linkClass}>
-                Sales
-              </NavLink>
-              <NavLink to="/products" className={linkClass}>
-                Products
-              </NavLink>
-              {user.role === 'admin' && (
-                <>
-                  <NavLink to="/users" className={linkClass}>
-                    Users
-                  </NavLink>
-                  <NavLink to="/security" className={linkClass}>
-                    Security
-                  </NavLink>
-                </>
-              )}
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <NavLink
-              to="/profile"
-              className="text-indigo-100 text-sm hover:underline"
-              title="My profile"
-            >
-              {user.name} <span className="opacity-70">({user.role})</span>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="app-header-inner">
+          <div className="app-header-top">
+            <NavLink to="/" className="app-brand">
+              <span className="app-brand-mark" aria-hidden="true">b.</span>
+              <span>bussiness-app</span>
             </NavLink>
-            <button
-              onClick={handleLogout}
-              className="bg-white text-indigo-700 text-sm font-medium px-3 py-1.5 rounded-md hover:bg-indigo-50"
-            >
-              Log out
-            </button>
+            <div className="app-account">
+              <NavLink to="/profile" className="app-account-link" title="My profile">
+                <span className="app-account-avatar" aria-hidden="true">
+                  {user.name?.charAt(0)?.toUpperCase()}
+                </span>
+                <span className="app-account-details">
+                  <span className="app-account-name">{user.name}</span>
+                  <span className="app-account-role">{user.role}</span>
+                </span>
+              </NavLink>
+              <button onClick={handleLogout} className="app-logout-button">Log out</button>
+            </div>
           </div>
+          <nav className="app-nav" aria-label="Business navigation">
+            {[
+              ['Dashboard', '/dashboard'],
+              ['New sale', '/new-sale'],
+              ['Sales', '/sales'],
+              ['Products', '/products'],
+              ...(user.role === 'admin' ? [['Users', '/users'], ['Security', '/security']] : []),
+            ].map(([label, to]) => (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) => `app-nav-link${isActive ? ' is-active' : ''}`}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-6">
-        <Outlet />
-      </main>
+      <main className="app-main"><Outlet /></main>
     </div>
   );
 }

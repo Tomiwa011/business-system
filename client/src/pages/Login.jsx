@@ -12,10 +12,10 @@ export default function Login() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || '/dashboard';
 
   if (!loading && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   async function handleSubmit(e) {
@@ -36,9 +36,9 @@ export default function Login() {
     <div className="login-page">
       <div className="login-card w-full max-w-sm bg-white rounded-xl p-7 sm:p-8">
         <div className="flex flex-col items-center mb-6">
-          <span className="app-brand-mark mb-4" aria-hidden="true">B</span>
-          <h1 className="text-2xl font-bold text-gray-900 text-center">Business Manager</h1>
-          <p className="text-sm text-gray-500 text-center mt-1">Sign in to manage your business</p>
+          <span className="app-brand-mark mb-4" aria-hidden="true">b.</span>
+          <h1 className="text-2xl font-bold text-gray-900 text-center">Welcome back</h1>
+          <p className="text-sm text-gray-500 text-center mt-1">Sign in to your bussiness-app workspace</p>
         </div>
 
         {error && (
