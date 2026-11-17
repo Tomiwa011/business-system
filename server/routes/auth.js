@@ -45,7 +45,11 @@ router.post('/login', async (req, res) => {
       return res.status(403).json({ message: 'This account has been deactivated' });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign(
+      { id: user.id, tv: user.token_version },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
     res.cookie('token', token, cookieOptions);
 
     res.json({
